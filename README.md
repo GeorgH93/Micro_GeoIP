@@ -97,7 +97,7 @@ security:
    ```bash
    go run main.go
    ```
-   
+
    **Note**: If no MaxMind API key is provided, the service will automatically use the free DB-IP database.
 
 ### Using Docker
@@ -130,13 +130,13 @@ docker run -d \
   -p 8080:8080 \
   -e MAXMIND_API_KEY=your-api-key-here \
   --name micro-geoip \
-  ghcr.io/yourusername/micro_geoip:latest
+  ghcr.io/georgh93/micro_geoip:latest
 
 # Without API key (uses free DB-IP database)
 docker run -d \
   -p 8080:8080 \
   --name micro-geoip \
-  ghcr.io/yourusername/micro_geoip:latest
+  ghcr.io/georgh93/micro_geoip:latest
 ```
 
 ### Kubernetes Deployment
@@ -192,7 +192,7 @@ The service detects client IPs using:
 ### DB-IP (Default/Free)
 - **Free database** from DB-IP.com
 - No API key required
-- Monthly updates available 
+- Monthly updates available
 - Good accuracy for most use cases
 - Used automatically when no MaxMind API key is provided
 
