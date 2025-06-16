@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2025  GeorgH93
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as
+ * published by the Free Software Foundation, either version 3 of the
+ * License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU Affero General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ */
+
 package config
 
 import (
@@ -13,16 +30,16 @@ type Config struct {
 		Port string `yaml:"port" env:"PORT"`
 		Host string `yaml:"host" env:"HOST"`
 	} `yaml:"server"`
-	
+
 	GeoIP struct {
-		MaxMindAPIKey   string `yaml:"maxmind_api_key" env:"MAXMIND_API_KEY"`
-		DatabasePath    string `yaml:"database_path" env:"GEOIP_DB_PATH"`
-		UpdateInterval  string `yaml:"update_interval" env:"GEOIP_UPDATE_INTERVAL"`
-		MaxMindURL      string `yaml:"maxmind_url" env:"MAXMIND_DOWNLOAD_URL"`
-		DBIPUrl         string `yaml:"dbip_url" env:"DBIP_DOWNLOAD_URL"`
-		PreferDBIP      bool   `yaml:"prefer_dbip" env:"PREFER_DBIP"`
+		MaxMindAPIKey  string `yaml:"maxmind_api_key" env:"MAXMIND_API_KEY"`
+		DatabasePath   string `yaml:"database_path" env:"GEOIP_DB_PATH"`
+		UpdateInterval string `yaml:"update_interval" env:"GEOIP_UPDATE_INTERVAL"`
+		MaxMindURL     string `yaml:"maxmind_url" env:"MAXMIND_DOWNLOAD_URL"`
+		DBIPUrl        string `yaml:"dbip_url" env:"DBIP_DOWNLOAD_URL"`
+		PreferDBIP     bool   `yaml:"prefer_dbip" env:"PREFER_DBIP"`
 	} `yaml:"geoip"`
-	
+
 	Security struct {
 		BlockIPParam bool `yaml:"block_ip_param" env:"BLOCK_IP_PARAM"`
 	} `yaml:"security"`
@@ -30,7 +47,7 @@ type Config struct {
 
 func Load() (*Config, error) {
 	cfg := &Config{}
-	
+
 	// Set defaults
 	cfg.Server.Port = "8080"
 	cfg.Server.Host = "0.0.0.0"
@@ -40,15 +57,15 @@ func Load() (*Config, error) {
 	cfg.GeoIP.DBIPUrl = "https://download.db-ip.com/free/dbip-country-lite-{YYYY-MM}.mmdb.gz"
 	cfg.GeoIP.PreferDBIP = false
 	cfg.Security.BlockIPParam = false
-	
+
 	// Try to load from config file
 	if err := loadFromFile(cfg); err != nil && !os.IsNotExist(err) {
 		return nil, err
 	}
-	
+
 	// Override with environment variables
 	loadFromEnv(cfg)
-	
+
 	return cfg, nil
 }
 
@@ -59,7 +76,7 @@ func loadFromFile(cfg *Config) error {
 		"/etc/micro_geoip/config.yaml",
 		"/etc/micro_geoip/config.yml",
 	}
-	
+
 	for _, path := range configPaths {
 		if _, err := os.Stat(path); err == nil {
 			data, err := os.ReadFile(path)
@@ -69,7 +86,7 @@ func loadFromFile(cfg *Config) error {
 			return yaml.Unmarshal(data, cfg)
 		}
 	}
-	
+
 	return os.ErrNotExist
 }
 
