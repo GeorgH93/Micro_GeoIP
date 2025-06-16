@@ -1,0 +1,14 @@
+server:
+  port: "8080"
+  host: "0.0.0.0"
+
+geoip:
+  maxmind_api_key: "your-maxmind-api-key-here"  # Optional - uses DB-IP free database if not provided
+  database_path: "./data/GeoLite2-Country.mmdb"
+  update_interval: "720h"  # 30 days
+  maxmind_url: "https://download.maxmind.com/app/geoip_download"
+  dbip_url: "https://download.db-ip.com/free/dbip-country-lite-{YYYY-MM}.mmdb.gz"  # {YYYY-MM} is replaced with current date
+  prefer_dbip: false  # Set to true to prefer DB-IP over MaxMind even if API key is available
+
+security:
+  block_ip_param: false  # Set to true to always use caller IP
